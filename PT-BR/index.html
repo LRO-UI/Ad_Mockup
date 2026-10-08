@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prévia de mockups de anúncios</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='7' y='7' width='18' height='18' transform='rotate(45 16 16)' fill='%233f6fa8' stroke='%23e7eaf0' stroke-width='1.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:wght@400..900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    color-scheme:dark;
+    --bg:#0d0f14; --panel:#14171f; --panel-edge:#232732;
+    --blue:#3f6fa8; --blue2:#5c7f9e; --steel:#7c8698;
+    --ink:#e7eaf0; --ink-soft:#727c8c; --line:#252a35;
+    --danger:#c77a7a; --ok:#7fa88a; --warn:#c9a86a;
+    --font-ui:'Space Grotesk', system-ui, sans-serif;
+    --font-display:'Playfair Display', Georgia, serif;
+    --font-mono:'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  }
+  html{ scroll-padding-top:env(safe-area-inset-top,0px); height:100%; }
+  *{ box-sizing:border-box; }
+  [hidden]{ display:none !important; }
+  body{ margin:0; height:100%; background:var(--bg); color:var(--ink); font-family:var(--font-ui); display:flex; flex-direction:column; overflow:hidden; }
+  header{ padding:18px 30px; border-bottom:4px double var(--blue2); display:flex; align-items:center; gap:16px; flex-wrap:wrap; flex:none; }
+  header h1{ margin:0; font-family:var(--font-display); font-weight:800; font-size:1.5rem; letter-spacing:.02em; }
+  .count{ font-size:.72rem; color:var(--blue2); letter-spacing:.06em; }
+  .head-actions{ margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; }
+  .head-actions .tool{ padding:11px 16px; }
+  header button.generate{ width:auto; padding:11px 18px; }
+
+  .app{ display:flex; flex:1; min-height:0; }
+  .stage{ flex:1 1 auto; min-width:0; padding:26px; display:flex; border-right:1px solid var(--line); }
+  .rail-frame{ position:relative; flex:1; display:flex; min-width:0; min-height:0; }
+  .rail-frame::before, .rail-frame::after{ content:''; position:absolute; pointer-events:none; z-index:2; }
+  .rail-frame::before{ inset:8px; border:1px solid rgba(231,234,240,.6); }
+  .rail-frame::after{ inset:13px; border:1px solid rgba(92,127,158,.35); }
+  .rail-d{ position:absolute; width:10px; height:10px; z-index:3; background:var(--blue); border:2px solid var(--bg); transform:translate(-50%,-50%) rotate(45deg); box-shadow:0 0 0 1px rgba(231,234,240,.5); }
+  .rail-d.tl{top:8px; left:8px;} .rail-d.tr{top:8px; left:calc(100% - 8px);}
+  .rail-d.bl{top:calc(100% - 8px); left:8px;} .rail-d.br{top:calc(100% - 8px); left:calc(100% - 8px);}
+  .preview{ flex:1; margin:22px; padding:16px 18px 30px; overflow:auto; min-width:0; min-height:0; position:relative; z-index:4; display:flex; flex-direction:column; gap:32px; }
+  .preview.drag{ outline:1px dashed var(--blue2); outline-offset:-6px; }
+
+  .group-title{ display:flex; align-items:center; gap:10px; text-transform:uppercase; letter-spacing:.26em; font-size:.66rem; color:var(--ink-soft); margin-bottom:14px; }
+  .group-title::before{ content:''; width:6px; height:6px; background:var(--blue); transform:rotate(45deg); flex:none; }
+  .group-title::after{ content:''; flex:1; height:3px; border-top:1px solid var(--blue); border-bottom:1px solid var(--blue2); }
+  .hint{ font-size:.7rem; color:var(--ink-soft); line-height:1.5; margin-top:8px; }
+
+  /* Phones */
+  .phones{ display:flex; flex-wrap:wrap; gap:28px; justify-content:center; }
+  .ph-col{ display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .ph-label{ display:flex; align-items:center; gap:10px; width:100%; font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-soft); }
+  .ph-label span{ flex:1; }
+  .phone{ position:relative; padding:12px; background:#07080b; border:1px solid var(--line); }
+  .phone::before{ content:''; position:absolute; inset:4px; border:1px solid rgba(92,127,158,.35); pointer-events:none; }
+  .phone .pd{ position:absolute; width:8px; height:8px; background:var(--blue); border:2px solid var(--bg); transform:translate(-50%,-50%) rotate(45deg); box-shadow:0 0 0 1px rgba(231,234,240,.4); z-index:2; }
+  .pd.tl{ top:4px; left:4px; } .pd.tr{ top:4px; left:calc(100% - 4px); } .pd.bl{ top:calc(100% - 4px); left:4px; } .pd.br{ top:calc(100% - 4px); left:calc(100% - 4px); }
+
+  /* Mock app UI (generic, not tied to any brand) */
+  .scr{
+    --m-bg:#ffffff; --m-ink:#14171c; --m-soft:#666b73; --m-line:#e6e8eb; --m-bar:#eef0f3; --m-accent:#2f6fd6;
+    width:300px; height:533px; overflow:hidden; position:relative; background:var(--m-bg); color:var(--m-ink);
+    font-family:system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:13px; line-height:17px;
+  }
+  .scr.dark{ --m-bg:#101114; --m-ink:#eef0f3; --m-soft:#9aa0a8; --m-line:#26282d; --m-bar:#1d1f24; --m-accent:#5c95ef; }
+  .sb{ height:22px; display:flex; justify-content:space-between; align-items:center; padding:0 14px; font-size:11px; font-weight:600; }
+  .sb i{ display:inline-block; width:18px; height:8px; border:1px solid currentColor; margin-left:4px; position:relative; }
+  .sb i::after{ content:''; position:absolute; inset:1px 4px 1px 1px; background:currentColor; }
+  .av{ width:32px; height:32px; border-radius:50%; background:#5c7f9e center/cover no-repeat; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; flex:none; }
+  .ph-head{ display:flex; align-items:center; gap:8px; padding:8px 12px; }
+  .ph-head .who{ flex:1; min-width:0; }
+  .ph-head .nm{ font-weight:700; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ph-head .sp{ font-size:11px; color:var(--m-soft); }
+  .dots{ letter-spacing:1px; color:var(--m-soft); font-weight:700; }
+  .ptext{ padding:0 12px 10px; white-space:pre-wrap; overflow-wrap:anywhere; font-size:13px; line-height:17px; }
+  .more{ color:var(--m-soft); font-weight:600; }
+  .media{ position:relative; width:100%; overflow:hidden; background:#cfd5dc center/cover no-repeat; }
+  .media video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .media .bgblur{ position:absolute; inset:0; background:center/cover no-repeat; }
+  .media .fg{ position:absolute; inset:0; background:center/contain no-repeat; }
+  .media video.contain{ object-fit:contain; }
+  .ph-empty{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:20px; color:#56606e; font-size:12px; line-height:1.4;
+    background:repeating-linear-gradient(45deg, #d5dbe2 0 10px, #dde2e8 10px 20px); }
+  .scr.dark .ph-empty{ background:repeating-linear-gradient(45deg, #1b1e24 0 10px, #20242b 10px 20px); color:#7c8698; }
+  .linkbar{ display:flex; align-items:center; gap:10px; padding:9px 12px; background:var(--m-bar); }
+  .linkbar .t{ flex:1; min-width:0; }
+  .linkbar .dm{ font-size:10.5px; color:var(--m-soft); text-transform:uppercase; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .linkbar .hl{ font-weight:700; font-size:13px; line-height:16px; overflow-wrap:anywhere; }
+  .linkbar .ds{ font-size:11.5px; color:var(--m-soft); line-height:15px; }
+  .ctab{ flex:none; background:var(--m-line); color:var(--m-ink); font-weight:600; font-size:12px; padding:8px 10px; border-radius:6px; white-space:nowrap; }
+  .reacts{ display:flex; justify-content:space-around; padding:9px 12px; border-top:1px solid var(--m-line); color:var(--m-soft); font-size:12px; font-weight:600; }
+  .reacts span{ display:flex; align-items:center; gap:5px; }
+  .ig-cta{ display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background:var(--m-accent); color:#fff; font-weight:600; font-size:13px; }
+  .ig-icons{ display:flex; gap:14px; padding:9px 12px 6px; align-items:center; }
+  .ig-icons .r{ margin-left:auto; }
+  .ic{ width:22px; height:22px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; display:block; }
+  .ic.sm{ width:16px; height:16px; }
+  .cap{ padding:0 12px; white-space:pre-wrap; overflow-wrap:anywhere; }
+  .cap b{ font-weight:700; }
+
+  .full{ position:absolute; inset:0; background:#000; color:#fff; }
+  .full .media{ position:absolute; inset:0; height:100% !important; background-color:#111; }
+  .st-top{ position:absolute; left:0; right:0; top:0; padding:8px 10px 0; z-index:3; background:linear-gradient(rgba(0,0,0,.35), transparent); }
+  .st-prog{ height:2px; background:rgba(255,255,255,.35); margin-bottom:8px; }
+  .st-prog div{ width:35%; height:100%; background:#fff; }
+  .st-top .ph-head{ padding:0; color:#fff; }
+  .st-top .sp, .st-top .dots{ color:rgba(255,255,255,.8); }
+  .st-bottom{ position:absolute; left:0; right:0; bottom:0; padding:30px 14px 18px; z-index:3; display:flex; flex-direction:column; align-items:center; gap:10px; background:linear-gradient(transparent, rgba(0,0,0,.55)); }
+  .st-text{ width:100%; text-align:center; white-space:pre-wrap; overflow-wrap:anywhere; font-size:13px; line-height:17px; text-shadow:0 1px 2px rgba(0,0,0,.5); }
+  .st-cta{ background:#fff; color:#111; font-weight:600; font-size:13px; padding:9px 18px; border-radius:20px; display:flex; align-items:center; gap:6px; }
+  .rl-side{ position:absolute; right:8px; bottom:120px; z-index:3; display:flex; flex-direction:column; gap:16px; align-items:center; font-size:10.5px; font-weight:600; }
+  .rl-side div{ display:flex; flex-direction:column; align-items:center; gap:3px; }
+  .rl-side .ic{ width:24px; height:24px; filter:drop-shadow(0 1px 1px rgba(0,0,0,.5)); }
+  .rl-bottom{ position:absolute; left:0; right:0; bottom:0; z-index:3; padding:40px 56px 12px 12px; background:linear-gradient(transparent, rgba(0,0,0,.6)); }
+  .rl-bottom .ph-head{ padding:0 0 6px; color:#fff; }
+  .rl-bottom .ph-head .sp{ color:rgba(255,255,255,.8); }
+  .rl-text{ white-space:pre-wrap; overflow-wrap:anywhere; font-size:13px; line-height:17px; text-shadow:0 1px 2px rgba(0,0,0,.5); }
+  .rl-text .more{ color:rgba(255,255,255,.75); }
+  .rl-cta{ margin:10px -44px 0 0; display:flex; justify-content:space-between; align-items:center; padding:8px 10px; background:rgba(255,255,255,.18); border:1px solid rgba(255,255,255,.3); border-radius:6px; font-weight:600; font-size:12.5px; }
+
+  .safe{ position:absolute; inset:0; z-index:6; pointer-events:none; }
+  .safe .z{ position:absolute; background:repeating-linear-gradient(45deg, rgba(199,122,122,.32) 0 6px, rgba(199,122,122,.12) 6px 12px); border:1px dashed rgba(199,122,122,.9); }
+  .safe .lbl{ position:absolute; font-family:var(--font-ui); font-size:9.5px; letter-spacing:.06em; color:#fff; background:rgba(160,70,70,.9); padding:2px 5px; }
+
+  /* Review */
+  .review{ display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:28px; }
+  .vis{ display:flex; flex-direction:column; }
+  .vis-row{ padding:12px 0; border-top:1px solid var(--line); }
+  .vis-row:first-child{ border-top:none; padding-top:0; }
+  .vis-row .pl{ font-size:.7rem; color:var(--blue2); letter-spacing:.06em; margin-bottom:5px; }
+  .vis-row .tx{ font-size:.84rem; line-height:1.55; color:var(--ink); white-space:pre-wrap; overflow-wrap:anywhere; }
+  .vis-row .tx .cut{ color:#4d5563; text-decoration:line-through; text-decoration-color:rgba(199,122,122,.5); }
+  .vis-row .tx .full-ok{ color:var(--ok); font-size:.7rem; margin-left:6px; }
+  ul.checks{ list-style:none; margin:0; padding:0; }
+  ul.checks li{ display:grid; grid-template-columns:14px 1fr; gap:8px; font-size:.78rem; line-height:1.5; color:#c3c9d4; padding:9px 0; border-top:1px solid var(--line); }
+  ul.checks li:first-child{ border-top:none; padding-top:2px; }
+  ul.checks li::before{ content:''; width:7px; height:7px; transform:rotate(45deg); margin:6px 0 0 3px; background:var(--blue2); }
+  ul.checks li.warn::before{ background:var(--warn); }
+  ul.checks li.ok::before{ background:var(--ok); }
+
+  /* Side */
+  .side{ flex:0 0 380px; min-width:0; padding:26px 26px 30px; display:flex; flex-direction:column; gap:26px; overflow:auto; }
+  .fld{ display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+  .fld:last-child{ margin-bottom:0; }
+  .fld-top{ display:flex; justify-content:space-between; align-items:baseline; gap:8px; }
+  .fld-top label{ font-size:.8rem; color:var(--ink); }
+  .cnt{ font-size:.68rem; color:var(--ink-soft); font-variant-numeric:tabular-nums; }
+  .cnt.over{ color:var(--warn); }
+  input[type=text], textarea, select{ width:100%; background:var(--panel); border:1px solid var(--line); color:var(--ink); font-family:var(--font-ui); font-size:.84rem; padding:9px 10px; border-radius:0; outline:none; }
+  textarea{ resize:vertical; line-height:1.5; min-height:120px; }
+  input:focus, textarea:focus, select:focus{ border-color:var(--blue2); }
+  select option{ background:var(--panel); }
+  .two{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+  .drop{ border:1px dashed var(--line); background:var(--panel); padding:16px; text-align:center; cursor:pointer; font-size:.78rem; color:var(--ink-soft); line-height:1.5; }
+  .drop:hover, .drop.drag{ border-color:var(--blue2); color:var(--ink); }
+  .drop:focus-visible{ outline:1px solid #fff; outline-offset:2px; }
+  .drop b{ color:var(--ink); font-weight:500; }
+  .media-info{ display:flex; gap:12px; align-items:center; margin-top:10px; font-size:.74rem; color:#c3c9d4; }
+  .media-info .thumb{ width:52px; height:52px; background:#1a1e27 center/cover no-repeat; border:1px solid var(--line); flex:none; }
+  .media-info .grow{ flex:1; min-width:0; line-height:1.5; }
+  .media-info code{ font-family:var(--font-mono); font-size:.72rem; color:#8fb0d6; }
+  .row-val{ display:flex; justify-content:space-between; font-size:.76rem; margin-top:10px; color:#c3c9d4; }
+  .row-val .v{ color:var(--blue2); font-size:.7rem; font-variant-numeric:tabular-nums; }
+  input[type=range]{ width:100%; -webkit-appearance:none; appearance:none; height:2px; background:var(--line); outline:none; margin:10px 0 2px; }
+  input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:13px; height:13px; background:var(--blue); border:2px solid var(--bg); box-shadow:0 0 0 1px var(--blue2); transform:rotate(45deg); cursor:pointer; }
+  input[type=range]::-moz-range-thumb{ width:11px; height:11px; background:var(--blue); border:2px solid var(--bg); box-shadow:0 0 0 1px var(--blue2); transform:rotate(45deg); cursor:pointer; border-radius:0; }
+  input[type=range]:focus-visible::-webkit-slider-thumb{ box-shadow:0 0 0 2px #fff; }
+
+  .vers{ display:flex; gap:6px; flex-wrap:wrap; }
+  .vers .tool{ min-width:46px; padding:10px 12px; }
+  .checks-in{ display:flex; flex-direction:column; gap:10px; }
+  .check{ display:flex; align-items:flex-start; gap:9px; font-size:.8rem; color:var(--ink-soft); cursor:pointer; line-height:1.35; }
+  .check input{ accent-color:var(--blue); width:14px; height:14px; margin:2px 0 0; flex:none; }
+  .check:has(input:checked){ color:var(--ink); }
+  .check small{ display:block; font-size:.68rem; color:var(--ink-soft); margin-top:2px; }
+
+  button.tool{
+    --c:var(--blue2);
+    border:1px solid var(--line); background:
+      linear-gradient(var(--c),var(--c)) top left/8px 1px no-repeat,
+      linear-gradient(var(--c),var(--c)) top left/1px 8px no-repeat,
+      linear-gradient(var(--c),var(--c)) top right/8px 1px no-repeat,
+      linear-gradient(var(--c),var(--c)) top right/1px 8px no-repeat,
+      linear-gradient(var(--c),var(--c)) bottom left/8px 1px no-repeat,
+      linear-gradient(var(--c),var(--c)) bottom left/1px 8px no-repeat,
+      linear-gradient(var(--c),var(--c)) bottom right/8px 1px no-repeat,
+      linear-gradient(var(--c),var(--c)) bottom right/1px 8px no-repeat,
+      var(--panel);
+    box-shadow:inset 0 0 0 3px var(--panel), inset 0 0 0 4px var(--panel-edge);
+    color:var(--ink); font-family:var(--font-ui); font-size:.72rem; letter-spacing:.04em; padding:11px 6px; cursor:pointer;
+  }
+  button.tool:hover{ --c:#fff; }
+  button.tool:focus-visible{ outline:1px solid #fff; outline-offset:2px; }
+  button.tool.active{ --c:var(--blue); background-color:rgba(63,111,168,.18); color:#fff; }
+  button.tool:disabled{ opacity:.4; cursor:not-allowed; }
+  .seg{ display:grid; gap:6px; }
+  .seg.c2{ grid-template-columns:repeat(2,1fr); }
+  button.generate{ width:100%; background:var(--blue); border:1px solid var(--blue2); color:#fff; font-family:var(--font-ui); font-size:.72rem; text-transform:uppercase; letter-spacing:.2em; padding:14px 10px; cursor:pointer; box-shadow:inset 0 0 0 3px var(--blue), inset 0 0 0 4px rgba(231,234,240,.35); }
+  button.generate:hover{ background:#4a7cb8; }
+  button.generate:focus-visible{ outline:1px solid #fff; outline-offset:2px; }
+  button.generate:disabled{ opacity:.5; cursor:wait; }
+  button.mini{ background:transparent; border:1px solid var(--line); color:var(--ink-soft); font-family:var(--font-ui); font-size:.66rem; letter-spacing:.05em; padding:5px 9px; cursor:pointer; }
+  button.mini:hover{ color:var(--ink); border-color:var(--blue2); }
+  button.mini.danger:hover{ color:#e3b4b4; border-color:var(--danger); }
+  button.mini:disabled{ opacity:.35; cursor:not-allowed; }
+  button.mini:focus-visible{ outline:1px solid #fff; outline-offset:2px; }
+
+  .toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%); z-index:30; background:var(--panel); border:1px solid var(--blue2); color:var(--ink); font-size:.76rem; padding:10px 16px; max-width:90vw; opacity:0; pointer-events:none; transition:opacity .2s; }
+  .toast.show{ opacity:1; } .toast.err{ border-color:var(--danger); color:#e3b4b4; }
+
+  @media (max-width:1200px){ .review{ grid-template-columns:1fr; } }
+  @media (max-width:860px){
+    body{ height:auto; overflow:auto; }
+    .app{ flex-direction:column; }
+    .stage{ border-right:none; border-bottom:1px solid var(--line); padding:14px; }
+    .preview{ margin:22px 10px; overflow:visible; padding:10px 6px 24px; }
+    .side{ flex:none; padding:24px 20px; overflow:visible; }
+    header{ padding:16px 20px; }
+    .head-actions{ margin-left:0; width:100%; }
+    .head-actions > *{ flex:1; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Prévia de mockups de anúncios</h1>
+  <span class="count" id="count"></span>
+  <div class="head-actions">
+    <button class="tool" id="btnTheme">App em modo escuro</button>
+    <button class="generate" id="btnPngAll">Baixar mockups</button>
+  </div>
+</header>
+
+<div class="app">
+  <div class="stage">
+    <div class="rail-frame">
+      <div class="rail-d tl"></div><div class="rail-d tr"></div>
+      <div class="rail-d bl"></div><div class="rail-d br"></div>
+      <div class="preview" id="preview">
+        <section>
+          <div class="phones" id="phones"></div>
+        </section>
+        <div class="review">
+          <section>
+            <div class="group-title">O que as pessoas leem sem clicar</div>
+            <div class="vis" id="vis"></div>
+          </section>
+          <section>
+            <div class="group-title">Revisão</div>
+            <ul class="checks" id="checks"></ul>
+          </section>
+        </div>
+        <p class="hint" style="max-width:80ch;margin:0">Estes mockups são uma aproximação feita para revisar copy, recorte e hierarquia. O layout real muda conforme o aparelho, a versão do app e o formato escolhido. Confirme na prévia do gerenciador de anúncios antes de publicar.</p>
+      </div>
+    </div>
+  </div>
+
+  <aside class="side">
+    <div>
+      <div class="group-title">Versões</div>
+      <div class="vers" id="vers"></div>
+      <div style="display:flex;gap:6px;margin-top:8px">
+        <button class="mini" id="vDup">Duplicar esta versão</button>
+        <button class="mini danger" id="vDel">Excluir versão</button>
+      </div>
+      <div class="hint">Crie até quatro versões para comparar hooks, títulos ou criativos lado a lado com o cliente.</div>
+    </div>
+
+    <div>
+      <div class="group-title">Criativo</div>
+      <div class="drop" id="drop" tabindex="0" role="button" aria-label="Enviar imagem ou vídeo"><b>Escolha uma imagem ou vídeo</b><br>ou arraste até aqui, ou em qualquer ponto da prévia</div>
+      <input type="file" id="fileIn" accept="image/*,video/*" hidden>
+      <div id="mediaInfo"></div>
+      <div id="focal" hidden>
+        <div class="row-val"><label for="fx">Foco, da esquerda para a direita</label><span class="v" id="fxv"></span></div>
+        <input type="range" id="fx" min="0" max="100" step="1">
+        <div class="row-val"><label for="fy">Foco, de cima para baixo</label><span class="v" id="fyv"></span></div>
+        <input type="range" id="fy" min="0" max="100" step="1">
+        <div class="hint">Move o recorte quando o criativo é cortado para caber em um posicionamento.</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="group-title">Copy</div>
+      <div class="fld">
+        <div class="fld-top"><label for="primary">Texto principal</label><span class="cnt" id="c-primary"></span></div>
+        <textarea id="primary" data-f="primary" placeholder="O texto acima do criativo. A primeira linha é o hook."></textarea>
+      </div>
+      <div class="fld">
+        <div class="fld-top"><label for="headline">Título</label><span class="cnt" id="c-headline"></span></div>
+        <input type="text" id="headline" data-f="headline" placeholder="A promessa em poucas palavras">
+      </div>
+      <div class="fld">
+        <div class="fld-top"><label for="desc">Descrição</label><span class="cnt" id="c-desc"></span></div>
+        <input type="text" id="desc" data-f="desc" placeholder="Opcional, abaixo do título">
+      </div>
+      <div class="two">
+        <div class="fld">
+          <div class="fld-top"><label for="cta">Botão</label></div>
+          <select id="cta" data-f="cta"></select>
+        </div>
+        <div class="fld">
+          <div class="fld-top"><label for="domain">Site exibido</label></div>
+          <input type="text" id="domain" data-f="domain" placeholder="seusite.com.br">
+        </div>
+      </div>
+      <div class="hint">Os contadores comparam com os tamanhos recomendados no guia de anúncios da Meta: 125 caracteres no texto principal, 40 no título e 30 na descrição. Textos maiores são aceitos, mas aparecem cortados.</div>
+    </div>
+
+    <div>
+      <div class="group-title">Perfil</div>
+      <div class="two">
+        <div class="fld">
+          <div class="fld-top"><label for="page">Nome da página</label></div>
+          <input type="text" id="page" placeholder="Sua marca">
+        </div>
+        <div class="fld">
+          <div class="fld-top"><label>Foto do perfil</label></div>
+          <button class="tool" id="btnAvatar" style="padding:10px 6px">Escolher imagem</button>
+          <input type="file" id="avatarIn" accept="image/*" hidden>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="group-title">Posicionamentos</div>
+      <div class="checks-in" id="plChecks"></div>
+      <label class="check" style="margin-top:14px"><input type="checkbox" id="safe" checked><span>Mostrar áreas seguras<small>Áreas do Stories e do Reels cobertas pela interface do app. Mantenha texto, logo e rostos fora delas.</small></span></label>
+      <div class="hint">Seus textos e ajustes ficam salvos neste navegador. Imagens e vídeos não são salvos, então envie de novo depois de fechar o arquivo.</div>
+    </div>
+  </aside>
+</div>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+'use strict';
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const uid = () => Math.random().toString(36).slice(2, 9);
+
+const CTAS = ['Saiba mais','Cadastre-se','Comprar agora','Reservar agora','Entre em contato','Solicitar orçamento','Enviar mensagem','Enviar mensagem no WhatsApp','Baixar','Inscrever-se','Candidatar-se','Aproveitar oferta','Assistir a mais','Pedir agora','Solicitar horário'];
+const LIMITS = { primary:125, headline:40, desc:30 };
+const PLACEMENTS = {
+  fbFeed:{ name:'Feed do Facebook', kind:'feed', lines:3 },
+  igFeed:{ name:'Feed do Instagram', kind:'feed', lines:2 },
+  stories:{ name:'Stories', kind:'full', lines:2 },
+  reels:{ name:'Reels', kind:'full', lines:1 }
+};
+// Áreas seguras aproximadas conforme as recomendações da Meta (proporção do quadro 9:16)
+const SAFE = {
+  stories:{ top:.14, bottom:.14, side:0 },
+  reels:{ top:.14, bottom:.35, side:.06 }
+};
+
+/* ---------- State ---------- */
+const KEY = 'ad-mockup:v1:pt';
+const blankVersion = (name) => ({ id:uid(), name, primary:'', headline:'', desc:'', cta:'Saiba mais', domain:'', fx:50, fy:50 });
+let st = {
+  page:'Sua marca', dark:false, safe:true,
+  show:{ fbFeed:true, igFeed:true, stories:true, reels:true },
+  versions:[{ ...blankVersion('A'),
+    primary:'Ainda perde leads porque ninguém responde em tempo?\n\nNossa equipe responde em menos de 5 minutos, todos os dias da semana. Veja como 120 clínicas dobraram os agendamentos.',
+    headline:'Responda cada lead em 5 minutos', desc:'Teste grátis de 14 dias', cta:'Saiba mais', domain:'seusite.com.br' }],
+  cur:0
+};
+try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s && Array.isArray(s.versions) && s.versions.length) st = { ...st, ...s, show:{ ...st.show, ...s.show } }; } catch(_) {}
+if (st.cur >= st.versions.length) st.cur = 0;
+const media = {};   // version id -> { type, src, w, h, blur, name }
+let avatar = null;  // data URL
+let saveT;
+const save = () => { clearTimeout(saveT); saveT = setTimeout(() => { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(_) {} }, 250); };
+const V = () => st.versions[st.cur];
+
+/* ---------- Icons ---------- */
+const IC = {
+  heart:'<svg class="ic" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-9.2-8.6C1.2 8.3 3 5 6.3 5c2 0 3.3 1.1 3.9 2.2h3.6C14.4 6.1 15.7 5 17.7 5 21 5 22.8 8.3 21.2 11.4 19 15.6 12 20 12 20z"/></svg>',
+  comment:'<svg class="ic" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1.1-4A8 8 0 1 1 20 12z"/></svg>',
+  send:'<svg class="ic" viewBox="0 0 24 24"><path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/></svg>',
+  save:'<svg class="ic" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg>',
+  like:'<svg class="ic sm" viewBox="0 0 24 24"><path d="M7 11v9H4v-9zM7 11l4-8c1.5 0 2.5 1 2.5 2.5V9h5.5a2 2 0 0 1 2 2.3l-1.2 6.5A2 2 0 0 1 17.8 20H7"/></svg>',
+  cmt:'<svg class="ic sm" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-11.6 7.1L4 20l1.1-4A8 8 0 1 1 20 12z"/></svg>',
+  share:'<svg class="ic sm" viewBox="0 0 24 24"><path d="M14 5l7 7-7 7M21 12H9a6 6 0 0 0-6 6"/></svg>',
+  chev:'<svg class="ic sm" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>',
+  up:'<svg class="ic sm" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg>',
+  dots:'<svg class="ic" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>'
+};
+
+/* ---------- Media helpers ---------- */
+function feedRatio(m){ // width / height shown in feed: between 4:5 and 1.91:1
+  if (!m) return 1;
+  const r = m.w / m.h;
+  return Math.min(1.91, Math.max(.8, r));
+}
+const isVertical = (m) => m && Math.abs(m.w / m.h - 9/16) < .03;
+function initials(n){ return (n || '?').trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase() || '?'; }
+function avatarHtml(){
+  return avatar ? `<div class="av" style="background-image:url('${avatar}')"></div>` : `<div class="av">${esc(initials(st.page))}</div>`;
+}
+function mediaInner(v, fit){
+  const m = media[v.id];
+  if (!m) return `<div class="ph-empty">Envie uma imagem ou vídeo para ver o recorte deste posicionamento</div>`;
+  const pos = `${v.fx}% ${v.fy}%`;
+  if (m.type === 'video'){
+    if (fit === 'contain') return `<video class="contain" src="${m.src}" muted loop autoplay playsinline></video>`;
+    return `<video src="${m.src}" muted loop autoplay playsinline style="object-position:${pos}"></video>`;
+  }
+  if (fit === 'contain') return `<div class="bgblur" style="background-image:url('${m.blur}')"></div><div class="fg" style="background-image:url('${m.src}')"></div>`;
+  return `<div class="fg" style="background-image:url('${m.src}');background-size:cover;background-position:${pos}"></div>`;
+}
+
+/* ---------- Phones ---------- */
+function phoneHtml(key, v){
+  const P = PLACEMENTS[key];
+  const m = media[v.id];
+  let inner = '';
+  if (key === 'fbFeed'){
+    inner = `<div class="sb"><span>9:41</span><span><i></i></span></div>
+      <div class="ph-head">${avatarHtml()}<div class="who"><div class="nm" data-t="page"></div><div class="sp">Patrocinado</div></div><span class="dots">···</span></div>
+      <div class="ptext" data-t="primary" data-lines="${P.lines}" data-more="Ver mais"></div>
+      <div class="media" style="aspect-ratio:${feedRatio(m)}">${mediaInner(v, 'cover')}</div>
+      <div class="linkbar"><div class="t"><div class="dm" data-t="domain"></div><div class="hl" data-t="headline" data-lines="2"></div><div class="ds" data-t="desc" data-lines="1"></div></div><div class="ctab" data-t="cta"></div></div>
+      <div class="reacts"><span>${IC.like} Curtir</span><span>${IC.cmt} Comentar</span><span>${IC.share} Compartilhar</span></div>`;
+  } else if (key === 'igFeed'){
+    inner = `<div class="sb"><span>9:41</span><span><i></i></span></div>
+      <div class="ph-head">${avatarHtml()}<div class="who"><div class="nm" data-t="page"></div><div class="sp">Patrocinado</div></div><span class="dots">···</span></div>
+      <div class="media" style="aspect-ratio:${feedRatio(m)}">${mediaInner(v, 'cover')}</div>
+      <div class="ig-cta"><span data-t="cta"></span>${IC.chev}</div>
+      <div class="ig-icons">${IC.heart}${IC.comment}${IC.send}<span class="r">${IC.save}</span></div>
+      <div class="cap" data-t="primary" data-lines="${P.lines}" data-more="mais" data-prefix="1"></div>`;
+  } else if (key === 'stories'){
+    const fit = !m || isVertical(m) ? 'cover' : 'contain';
+    inner = `<div class="full"><div class="media">${mediaInner(v, fit)}</div>
+      <div class="st-top"><div class="st-prog"><div></div></div><div class="ph-head">${avatarHtml()}<div class="who"><div class="nm" data-t="page"></div><div class="sp">Patrocinado</div></div><span class="dots">···</span></div></div>
+      <div class="st-bottom"><div class="st-text" data-t="primary" data-lines="${P.lines}" data-more="mais"></div><div class="st-cta">${IC.up}<span data-t="cta"></span></div></div>
+      ${safeHtml('stories')}</div>`;
+  } else {
+    const fit = !m || isVertical(m) ? 'cover' : 'contain';
+    inner = `<div class="full"><div class="media">${mediaInner(v, fit)}</div>
+      <div class="rl-side"><div>${IC.heart}<span>2.1k</span></div><div>${IC.comment}<span>84</span></div><div>${IC.send}</div><div>${IC.dots}</div></div>
+      <div class="rl-bottom"><div class="ph-head">${avatarHtml()}<div class="who"><div class="nm" data-t="page"></div><div class="sp">Patrocinado</div></div></div>
+        <div class="rl-text" data-t="primary" data-lines="${P.lines}" data-more="mais"></div>
+        <div class="rl-cta"><span data-t="cta"></span>${IC.chev}</div></div>
+      ${safeHtml('reels')}</div>`;
+  }
+  return `<div class="ph-col" data-pl="${key}">
+    <div class="ph-label"><span>${P.name}</span><button class="mini" data-png="${key}">Baixar</button></div>
+    <div class="phone"><span class="pd tl"></span><span class="pd tr"></span><span class="pd bl"></span><span class="pd br"></span>
+      <div class="scr${st.dark ? ' dark' : ''}" data-scr="${key}">${inner}</div></div>
+  </div>`;
+}
+function safeHtml(key){
+  if (!st.safe) return '';
+  const z = SAFE[key];
+  let h = `<div class="safe" data-safe>`;
+  h += `<div class="z" style="left:0;right:0;top:0;height:${z.top*100}%"></div><span class="lbl" style="left:6px;top:calc(${z.top*100}% - 18px)">Coberto pelo app</span>`;
+  h += `<div class="z" style="left:0;right:0;bottom:0;height:${z.bottom*100}%"></div><span class="lbl" style="left:6px;bottom:calc(${z.bottom*100}% + 3px)">Coberto pelo app</span>`;
+  if (z.side){ h += `<div class="z" style="top:${z.top*100}%;bottom:${z.bottom*100}%;right:0;width:${z.side*100}%"></div><div class="z" style="top:${z.top*100}%;bottom:${z.bottom*100}%;left:0;width:${z.side*100}%"></div>`; }
+  return h + '</div>';
+}
+let clampResults = {};
+function renderPhones(){
+  const v = V();
+  const keys = Object.keys(PLACEMENTS).filter(k => st.show[k]);
+  $('#phones').innerHTML = keys.length ? keys.map(k => phoneHtml(k, v)).join('') : '<div class="hint">Ative pelo menos um posicionamento no painel.</div>';
+  updateTexts();
+}
+function clampInto(el, prefixHtml, text, lines, more){
+  const lh = parseFloat(getComputedStyle(el).lineHeight) || 17;
+  const maxH = lh * lines + 2;
+  el.innerHTML = prefixHtml + esc(text);
+  if (el.scrollHeight <= maxH) return { visible:text, cut:false };
+  const moreHtml = ` <span class="more">${esc(more)}</span>`;
+  let lo = 0, hi = text.length;
+  while (lo < hi){
+    const mid = (lo + hi + 1) >> 1;
+    el.innerHTML = prefixHtml + esc(text.slice(0, mid).trimEnd()) + '…' + moreHtml;
+    if (el.scrollHeight <= maxH) lo = mid; else hi = mid - 1;
+  }
+  let cut = text.slice(0, lo);
+  const sp = cut.search(/\s\S*$/);
+  if (sp > lo * .6) cut = cut.slice(0, sp);
+  cut = cut.trimEnd();
+  el.innerHTML = prefixHtml + esc(cut) + '…' + moreHtml;
+  return { visible:cut, cut:true };
+}
+function updateTexts(){
+  const v = V();
+  clampResults = {};
+  document.querySelectorAll('[data-scr]').forEach(scr => {
+    const key = scr.dataset.scr;
+    scr.querySelectorAll('[data-t]').forEach(el => {
+      const t = el.dataset.t;
+      if (t === 'page'){ el.textContent = st.page || 'Sua marca'; return; }
+      if (t === 'cta'){ el.textContent = v.cta; return; }
+      if (t === 'domain'){ el.textContent = v.domain || ''; el.hidden = !v.domain; return; }
+      const text = v[t] || '';
+      if (t === 'desc' || t === 'headline'){ el.hidden = !text; }
+      const lines = +el.dataset.lines || 99;
+      const prefix = el.dataset.prefix ? `<b>${esc(st.page || 'Sua marca')}</b> ` : '';
+      const r = clampInto(el, prefix, text, lines, el.dataset.more || '');
+      if (t === 'headline' || t === 'desc'){ if (r.cut) el.innerHTML = esc(r.visible) + '…'; }
+      if (t === 'primary') clampResults[key] = r;
+      if (t === 'headline') clampResults[key + ':headline'] = r;
+    });
+  });
+  renderReview();
+  updateCounters();
+  save();
+}
+
+/* ---------- Review ---------- */
+function renderReview(){
+  const v = V(), m = media[v.id];
+  const keys = Object.keys(PLACEMENTS).filter(k => st.show[k]);
+  $('#vis').innerHTML = v.primary ? keys.map(k => {
+    const r = clampResults[k]; if (!r) return '';
+    const rest = r.cut ? v.primary.slice(r.visible.length) : '';
+    return `<div class="vis-row"><div class="pl">${PLACEMENTS[k].name}</div><div class="tx">${esc(r.visible)}${r.cut ? `<span class="cut">${esc(rest)}</span>` : '<span class="full-ok">aparece completo</span>'}</div></div>`;
+  }).join('') : '<div class="hint" style="margin:0">Escreva o texto principal para ver onde cada posicionamento corta.</div>';
+
+  const c = [];
+  const firstLine = (v.primary || '').split('\n')[0].trim();
+  if (!v.primary.trim()) c.push(['warn','O texto principal está vazio. Nos feeds, é a primeira coisa que as pessoas leem.']);
+  else {
+    if (st.show.reels && clampResults.reels?.cut) c.push(['info', `O Reels mostra cerca de uma linha: "${clampResults.reels.visible}…". Garanta que o hook esteja nela.`]);
+    if (firstLine.length > 0 && v.primary.length > LIMITS.primary) c.push(['warn', `O texto principal tem ${v.primary.length} caracteres. Tudo depois do corte exige um clique, então as primeiras linhas precisam sustentar a promessa sozinhas.`]);
+    else c.push(['ok','O texto principal está dentro do tamanho recomendado.']);
+  }
+  if (!v.headline.trim()) c.push(['info','Sem título. No Feed do Facebook, o título fica ao lado do botão e ajuda no clique.']);
+  else if (v.headline.length > LIMITS.headline) c.push(['warn', `O título tem ${v.headline.length} caracteres e pode ser cortado em telas menores.`]);
+  if (v.desc.length > LIMITS.desc) c.push(['warn', `A descrição tem ${v.desc.length} caracteres. Ela costuma ser escondida ou cortada, então não dependa dela.`]);
+  if (!m) c.push(['warn','Nenhum criativo enviado ainda.']);
+  else {
+    const r = m.w / m.h;
+    if (r > 1.05) c.push(['warn', `O criativo é horizontal (${ratioName(m)}). Ocupa menos espaço nos feeds e aparece com barras grandes no Stories e no Reels. Uma versão 4:5 ou 9:16 costuma funcionar melhor no mobile.`]);
+    else if (Math.abs(r - 1) < .03) c.push(['info','O criativo é quadrado (1:1). Os feeds mostram bem, mas o Stories e o Reels acrescentam barras acima e abaixo. Considere uma versão 9:16 para esses posicionamentos.']);
+    else if (Math.abs(r - .8) < .03) c.push(['ok','4:5 é o formato mais vertical que os feeds mostram sem cortar.']);
+    if (isVertical(m)) c.push(['info','9:16 preenche o Stories e o Reels. Nos feeds é recortado para 4:5, cortando topo e base: confira se nada importante se perde, ou ajuste o foco.']);
+    else if (r < .79) c.push(['info', `Este criativo ${ratioName(m)} é recortado para 4:5 nos feeds e não preenche o Stories e o Reels.`]);
+    if (m.w < 1080) c.push(['warn', `O criativo tem ${m.w} pixels de largura. A Meta recomenda pelo menos 1080 pixels; abaixo disso pode ficar borrado em celulares mais novos.`]);
+    if (st.safe && (st.show.stories || st.show.reels)) c.push(['info','Confira as áreas vermelhas no Stories e no Reels: texto, logo e rostos ali serão cobertos pela interface.']);
+  }
+  $('#checks').innerHTML = c.map(([k, t]) => `<li class="${k}"><span>${esc(t)}</span></li>`).join('');
+}
+function ratioName(m){
+  const r = m.w / m.h;
+  const known = [[1,'1:1'],[.8,'4:5'],[9/16,'9:16'],[16/9,'16:9'],[1.91,'1.91:1'],[4/3,'4:3'],[3/4,'3:4'],[2/3,'2:3']];
+  const k = known.find(([x]) => Math.abs(r - x) < .02);
+  return k ? k[1] : `${(r).toFixed(2)}:1`;
+}
+
+/* ---------- Side ---------- */
+function updateCounters(){
+  const v = V();
+  for (const f of ['primary','headline','desc']){
+    const el = $('#c-' + f), n = (v[f] || '').length;
+    el.textContent = `${n} / ${LIMITS[f]}`; el.classList.toggle('over', n > LIMITS[f]);
+  }
+  $('#count').textContent = `Versão ${v.name}${media[v.id] ? `, ${ratioName(media[v.id])} ${media[v.id].type}` : ''}`;
+}
+function renderVersions(){
+  $('#vers').innerHTML = st.versions.map((v, i) => `<button class="tool${i === st.cur ? ' active' : ''}" data-vi="${i}">${esc(v.name)}</button>`).join('') +
+    (st.versions.length < 4 ? `<button class="tool" data-vnew>+ Nova</button>` : '');
+  $('#vDel').disabled = st.versions.length <= 1;
+}
+function syncInputs(){
+  const v = V();
+  $('#primary').value = v.primary; $('#headline').value = v.headline; $('#desc').value = v.desc;
+  $('#cta').value = v.cta; $('#domain').value = v.domain; $('#page').value = st.page;
+  $('#safe').checked = st.safe;
+  $('#btnTheme').textContent = st.dark ? 'App em modo claro' : 'App em modo escuro';
+  renderMediaInfo();
+}
+function renderMediaInfo(){
+  const v = V(), m = media[v.id];
+  $('#mediaInfo').innerHTML = m ? `<div class="media-info">
+      <div class="thumb" style="background-image:url('${m.type === 'video' ? m.poster : m.src}')"></div>
+      <div class="grow">${esc(m.name)}<br><code>${m.w} × ${m.h}</code> · <code>${ratioName(m)}</code> ${m.type}</div>
+      <button class="mini danger" id="rmMedia">Remover</button></div>` : '';
+  $('#focal').hidden = !m;
+  $('#fx').value = v.fx; $('#fy').value = v.fy;
+  $('#fxv').textContent = v.fx + '%'; $('#fyv').textContent = v.fy + '%';
+}
+$('#cta').innerHTML = CTAS.map(c => `<option>${c}</option>`).join('');
+$('#plChecks').innerHTML = Object.entries(PLACEMENTS).map(([k, p]) => `<label class="check"><input type="checkbox" data-pl="${k}" ${st.show[k] ? 'checked' : ''}> ${p.name}</label>`).join('');
+
+['primary','headline','desc','domain'].forEach(f => $('#' + f).addEventListener('input', (e) => { V()[f] = e.target.value; updateTexts(); }));
+$('#cta').addEventListener('change', (e) => { V().cta = e.target.value; updateTexts(); });
+$('#page').addEventListener('input', (e) => { st.page = e.target.value; if (!avatar) renderPhones(); else updateTexts(); });
+$('#safe').addEventListener('change', (e) => { st.safe = e.target.checked; renderPhones(); });
+$('#plChecks').addEventListener('change', (e) => { const k = e.target.dataset.pl; if (!k) return; st.show[k] = e.target.checked; renderPhones(); });
+$('#btnTheme').addEventListener('click', () => { st.dark = !st.dark; $('#btnTheme').textContent = st.dark ? 'App em modo claro' : 'App em modo escuro'; renderPhones(); });
+$('#fx').addEventListener('input', (e) => { V().fx = +e.target.value; $('#fxv').textContent = e.target.value + '%'; applyFocus(); });
+$('#fy').addEventListener('input', (e) => { V().fy = +e.target.value; $('#fyv').textContent = e.target.value + '%'; applyFocus(); });
+function applyFocus(){
+  const v = V(), pos = `${v.fx}% ${v.fy}%`;
+  document.querySelectorAll('#phones .media .fg').forEach(el => { if (el.style.backgroundSize === 'cover') el.style.backgroundPosition = pos; });
+  document.querySelectorAll('#phones .media video:not(.contain)').forEach(el => el.style.objectPosition = pos);
+  save();
+}
+
+$('#vers').addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.vnew !== undefined){
+    const names = 'ABCD'.split('').filter(n => !st.versions.some(v => v.name === n));
+    st.versions.push(blankVersion(names[0] || String(st.versions.length + 1)));
+    st.cur = st.versions.length - 1;
+  } else st.cur = +b.dataset.vi;
+  renderVersions(); syncInputs(); renderPhones();
+});
+$('#vDup').addEventListener('click', () => {
+  if (st.versions.length >= 4){ toast('Você pode manter até quatro versões.', true); return; }
+  const names = 'ABCD'.split('').filter(n => !st.versions.some(v => v.name === n));
+  const src = V(); const copy = { ...src, id:uid(), name:names[0] };
+  if (media[src.id]) media[copy.id] = media[src.id];
+  st.versions.push(copy); st.cur = st.versions.length - 1;
+  renderVersions(); syncInputs(); renderPhones(); toast(`Versão ${copy.name} criada a partir da ${src.name}.`);
+});
+$('#vDel').addEventListener('click', () => {
+  if (st.versions.length <= 1) return;
+  const gone = st.versions.splice(st.cur, 1)[0]; delete media[gone.id];
+  st.cur = Math.max(0, st.cur - 1);
+  renderVersions(); syncInputs(); renderPhones(); toast(`Versão ${gone.name} excluída.`);
+});
+
+/* ---------- Uploads ---------- */
+const readURL = (file) => new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(file); });
+function blurOf(img, w, h){
+  const c = document.createElement('canvas'); const s = 120 / Math.max(w, h);
+  c.width = Math.max(1, Math.round(w * s)); c.height = Math.max(1, Math.round(h * s));
+  const x = c.getContext('2d'); x.filter = 'blur(6px) brightness(.7)'; x.drawImage(img, 0, 0, c.width, c.height);
+  return c.toDataURL('image/jpeg', .7);
+}
+async function loadMedia(file){
+  if (!file) return;
+  const v = V();
+  try {
+    if (file.type.startsWith('image/')){
+      const src = await readURL(file);
+      const img = new Image(); img.src = src; await img.decode();
+      media[v.id] = { type:'image', src, w:img.naturalWidth, h:img.naturalHeight, blur:blurOf(img, img.naturalWidth, img.naturalHeight), name:file.name };
+    } else if (file.type.startsWith('video/')){
+      const src = URL.createObjectURL(file);
+      const vid = document.createElement('video'); vid.src = src; vid.muted = true; vid.playsInline = true; vid.preload = 'auto';
+      await new Promise((res, rej) => { vid.onloadeddata = res; vid.onerror = rej; });
+      const c = document.createElement('canvas'); c.width = vid.videoWidth; c.height = vid.videoHeight;
+      c.getContext('2d').drawImage(vid, 0, 0);
+      media[v.id] = { type:'video', src, w:vid.videoWidth, h:vid.videoHeight, poster:c.toDataURL('image/jpeg', .8), blur:'', name:file.name };
+    } else { toast('Escolha um arquivo de imagem ou vídeo.', true); return; }
+    renderMediaInfo(); renderPhones();
+  } catch(_){ toast('Não foi possível ler este arquivo. Tente um JPG, PNG ou MP4.', true); }
+}
+$('#drop').addEventListener('click', () => $('#fileIn').click());
+$('#drop').addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); $('#fileIn').click(); } });
+$('#fileIn').addEventListener('change', (e) => { loadMedia(e.target.files[0]); e.target.value = ''; });
+$('#mediaInfo').addEventListener('click', (e) => { if (e.target.id === 'rmMedia'){ delete media[V().id]; renderMediaInfo(); renderPhones(); } });
+for (const el of [$('#drop'), $('#preview')]){
+  el.addEventListener('dragover', (e) => { if (e.dataTransfer.types.includes('Files')){ e.preventDefault(); el.classList.add('drag'); } });
+  el.addEventListener('dragleave', () => el.classList.remove('drag'));
+  el.addEventListener('drop', (e) => { e.preventDefault(); el.classList.remove('drag'); loadMedia(e.dataTransfer.files[0]); });
+}
+$('#btnAvatar').addEventListener('click', () => $('#avatarIn').click());
+$('#avatarIn').addEventListener('change', async (e) => {
+  const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+  try { avatar = await readURL(f); renderPhones(); } catch(_) { toast('Não foi possível ler esta imagem.', true); }
+});
+
+/* ---------- Export ---------- */
+let h2cPromise = null;
+function loadH2C(){
+  if (window.html2canvas) return Promise.resolve();
+  if (!h2cPromise) h2cPromise = new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+    s.onload = res; s.onerror = () => { h2cPromise = null; rej(); };
+    document.head.appendChild(s);
+  });
+  return h2cPromise;
+}
+function swapVideos(root){
+  const swaps = [];
+  root.querySelectorAll('video').forEach(vid => {
+    const c = document.createElement('canvas'); c.width = vid.videoWidth || 2; c.height = vid.videoHeight || 2;
+    try { c.getContext('2d').drawImage(vid, 0, 0, c.width, c.height); } catch(_) {}
+    const d = document.createElement('div');
+    d.className = vid.classList.contains('contain') ? 'fg' : 'fg';
+    d.style.cssText = `position:absolute;inset:0;background:url('${c.toDataURL('image/jpeg', .9)}') ${vid.classList.contains('contain') ? 'center/contain' : `${vid.style.objectPosition || '50% 50%'}/cover`} no-repeat;`;
+    vid.after(d); vid.style.display = 'none';
+    swaps.push(() => { d.remove(); vid.style.display = ''; });
+  });
+  return () => swaps.forEach(f => f());
+}
+async function exportNode(node, name){
+  try { await loadH2C(); } catch(_){ toast('O download precisa de conexão com a internet na primeira vez, para carregar a biblioteca de imagens.', true); return false; }
+  const restore = swapVideos(node);
+  try {
+    const canvas = await window.html2canvas(node, { scale:2, backgroundColor:'#0d0f14', useCORS:true, logging:false });
+    await new Promise(res => canvas.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); res(); }, 'image/png'));
+    return true;
+  } catch(_){ toast('Não foi possível gerar a imagem.', true); return false; }
+  finally { restore(); }
+}
+$('#phones').addEventListener('click', async (e) => {
+  const b = e.target.closest('[data-png]'); if (!b) return;
+  const col = b.closest('.ph-col');
+  b.disabled = true;
+  const ok = await exportNode(col.querySelector('.phone'), `mockup-${V().name}-${b.dataset.png}.png`);
+  b.disabled = false; if (ok) toast('Mockup baixado.');
+});
+$('#btnPngAll').addEventListener('click', async (e) => {
+  const btn = e.currentTarget; btn.disabled = true; const o = btn.textContent; btn.textContent = 'Preparando…';
+  document.querySelectorAll('#phones [data-png]').forEach(b => b.style.visibility = 'hidden');
+  const ok = await exportNode($('#phones'), `mockups-versao-${V().name}.png`);
+  document.querySelectorAll('#phones [data-png]').forEach(b => b.style.visibility = '');
+  btn.disabled = false; btn.textContent = o; if (ok) toast('Todos os mockups baixados em uma imagem.');
+});
+
+let toastT;
+function toast(msg, err){ const t = $('#toast'); t.textContent = msg; t.classList.toggle('err', !!err); t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2800); }
+
+window.addEventListener('resize', () => { clearTimeout(window._rz); window._rz = setTimeout(updateTexts, 150); });
+
+renderVersions();
+syncInputs();
+renderPhones();
+})();
+</script>
+</body>
+</html>
